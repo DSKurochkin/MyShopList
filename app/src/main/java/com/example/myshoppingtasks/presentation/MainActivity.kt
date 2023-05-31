@@ -1,4 +1,4 @@
-package com.example.myshoppingtasks.data
+package com.example.myshoppingtasks.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
