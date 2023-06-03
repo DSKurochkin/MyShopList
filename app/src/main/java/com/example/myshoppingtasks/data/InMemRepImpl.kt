@@ -18,19 +18,18 @@ object InMemRepImpl : Repo {
     }
 
     init {
-        for (i in 1 until 10){
-           addShopItem (ShopItem("Name $i", 1, true))
+        for (i in 1 until 19) {
+            addShopItem(ShopItem("Name $i", 1, true))
         }
     }
 
 
     override fun addShopItem(item: ShopItem) {
         currentId++
-        if (item.id == currentId||item.id==ShopItem.UNDEFINED_ID) {
+        if (item.id == currentId || item.id == ShopItem.UNDEFINED_ID) {
             db.put(currentId, ShopItem(item.name, item.count, item.isEnabled, currentId))
             updateShopList()
-        }
-        else throw RuntimeException(errorInIdMes(item.id, duplicateMes))
+        } else throw RuntimeException(errorInIdMes(item.id, duplicateMes))
 
     }
 
@@ -53,11 +52,10 @@ object InMemRepImpl : Repo {
     }
 
     override fun getShopList(): MutableLiveData<List<ShopItem>> {
-        updateShopList()
         return shopListLD
     }
 
-    private fun updateShopList(){
+    private fun updateShopList() {
         shopListLD.value = db.values.toList()
     }
 
