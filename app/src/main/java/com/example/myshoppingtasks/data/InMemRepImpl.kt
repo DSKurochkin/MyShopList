@@ -3,6 +3,7 @@ package com.example.myshoppingtasks.data
 import androidx.lifecycle.MutableLiveData
 import com.example.myshoppingtasks.domain.Repo
 import com.example.myshoppingtasks.domain.ShopItem
+import kotlin.random.Random
 
 object InMemRepImpl : Repo {
     private val db = mutableMapOf<Int, ShopItem>()
@@ -19,7 +20,7 @@ object InMemRepImpl : Repo {
 
     init {
         for (i in 1 until 19) {
-            addShopItem(ShopItem("Name $i", 1, true))
+            addShopItem(ShopItem("Name $i", 1, Random.nextBoolean()))
         }
     }
 
@@ -40,7 +41,8 @@ object InMemRepImpl : Repo {
     }
 
 
-    override fun removeShopItem(id: Int) {
+    override fun removeShopItem(item: ShopItem) {
+        val id = item.id
         checkIdOnExisting(id)
         db.remove(id)
         updateShopList()
