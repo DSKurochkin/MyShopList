@@ -3,11 +3,11 @@ package com.example.myshoppingtasks.presentation
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.example.myshoppingtasks.R
 import com.example.myshoppingtasks.domain.ShopItem
@@ -113,35 +113,13 @@ class ShopItemActivity : AppCompatActivity() {
 
 
     private fun addTextListeners() {
-        etName.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.resetNameError()
-            }
+        etName.doOnTextChanged { text, start, before, count -> viewModel.resetNameError() }
+        etName.doAfterTextChanged { text -> viewModel.resetNameError() }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-
-        })
-
-        etCount.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.resetCountError()
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-
-        })
+        etCount.doOnTextChanged() { text, start, before, count ->
+            viewModel.resetCountError()
+        }
+        etCount.doAfterTextChanged { text -> viewModel.resetCountError() }
     }
 
 
