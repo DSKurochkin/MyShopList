@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">MyShoppingTasks</string>
     <string name="add_shop_item_content_description">Add new shop item</string>
+    <string name="title_activity_shop_item">ShopItemActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="name_hint">name</string>
+    <string name="name_count">count</string>
+    <string name="save_btn">Save</string>
+    <string name="error_input_name">Invalid name</string>
+    <string name="error_input_count">Invalid count</string>
 </resources>
