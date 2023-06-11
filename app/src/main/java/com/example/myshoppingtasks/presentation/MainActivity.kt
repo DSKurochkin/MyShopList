@@ -1,12 +1,12 @@
 package com.example.myshoppingtasks.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myshoppingtasks.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : ComponentActivity() {
 
@@ -19,6 +19,13 @@ class MainActivity : ComponentActivity() {
         viewModel = ViewModelProvider(this).get(MaiViewModel::class.java)
         viewModel.shopList.observe(this) {
             shopListAdapter.submitList(it)
+
+        }
+
+        val addItemBtn = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
+        addItemBtn.setOnClickListener {
+            val intent = ShopItemActivity.newIntentAddItem(this)
+            startActivity(intent)
 
         }
 
@@ -45,7 +52,11 @@ class MainActivity : ComponentActivity() {
     private fun setupClickListeners() {
         shopListAdapter.onShopItemClickListener = { item, clickParam ->
             when (clickParam) {
-                ShopListAdapter.SHORT_CLICK_PARAM -> Log.d("CLICK", "I'Mto CLICK")
+                ShopListAdapter.SHORT_CLICK_PARAM -> {
+                    val intent = ShopItemActivity.newIntentEditItem(this, item.id)
+                    startActivity(intent)
+                }
+
                 ShopListAdapter.LONG_CLICK_PARAM -> viewModel.changeItemEnabled(item)
             }
         }
