@@ -1,16 +1,21 @@
 package com.example.myshoppingtasks.presentation
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myshoppingtasks.R
+import com.example.myshoppingtasks.databinding.ItemShopDisabledBinding
+import com.example.myshoppingtasks.databinding.ItemShopEnabledBinding
 import com.example.myshoppingtasks.domain.ShopItem
 
 class ShopListAdapter
     : ListAdapter<ShopItem, ShopListAdapter.ShopListViewHolder>(ShopItemDiffCallback()) {
+
+
     var onShopItemClickListener: ((item: ShopItem, clickParam: Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopListViewHolder {
@@ -21,25 +26,41 @@ class ShopListAdapter
                 throw RuntimeException("Unknown ViewType - $viewType")
             }
         }
-        return ShopListViewHolder(
-            LayoutInflater
-                .from(parent.context).inflate(tvItemId, parent, false)
-
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(
+            LayoutInflater.from(parent.context),
+            tvItemId,
+            parent,
+            false
         )
+        return ShopListViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ShopListViewHolder, position: Int) {
         with(holder) {
             val item = getItem(position)
-            tvName.text = item.name
-            tvCount.text = item.count.toString()
-            view.setOnLongClickListener {
-                onShopItemClickListener?.invoke(item, LONG_CLICK_PARAM)
-                true
-            }
-            view.setOnClickListener {
+            val binding = holder.binding
+            with( binding.root) {
+                setOnClickListener {
                 onShopItemClickListener?.invoke(item, SHORT_CLICK_PARAM)
             }
+                setOnLongClickListener {
+                    onShopItemClickListener?.invoke(item, LONG_CLICK_PARAM)
+                    true
+                }
+            }
+            when(binding){
+                is ItemShopEnabledBinding->{
+                    binding.itemName.text = item.name
+                    binding.itemCount.text = item.count.toString()
+                }
+                is ItemShopDisabledBinding->{
+                    binding.itemName.text = item.name
+                    binding.itemCount.text = item.count.toString()
+                }
+            }
+
+
+
         }
     }
 
@@ -51,11 +72,7 @@ class ShopListAdapter
         }
     }
 
-    class ShopListViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        var tvName = view.findViewById<TextView>(R.id.item_name)
-        var tvCount = view.findViewById<TextView>(R.id.item_count)
-    }
-
+    class ShopListViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root)
     companion object {
         val VT_ENABLED = 0
         val VT_DISABLED = 1

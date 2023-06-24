@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), EditingFinishedListener {
 
         val addItemBtn = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
         addItemBtn.setOnClickListener {
-            if (isPortraitOrientanion()) {
+            if (isPortraitOrientation()) {
                 val intent = ShopItemActivity.newIntentAddItem(this)
                 startActivity(intent)
             } else {
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), EditingFinishedListener {
         shopListAdapter.onShopItemClickListener = { item, clickParam ->
             when (clickParam) {
                 ShopListAdapter.SHORT_CLICK_PARAM -> {
-                    if (isPortraitOrientanion()) {
+                    if (isPortraitOrientation()) {
                         val intent = ShopItemActivity.newIntentEditItem(this, item.id)
                         startActivity(intent)
                     } else {
@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity(), EditingFinishedListener {
         return ItemTouchHelper(cb)
     }
 
-    private fun isPortraitOrientanion() = shopItemContainer == null
+    private fun isPortraitOrientation() = shopItemContainer == null
 
     private fun launchFragment(fragment: Fragment) {
         supportFragmentManager.popBackStack()

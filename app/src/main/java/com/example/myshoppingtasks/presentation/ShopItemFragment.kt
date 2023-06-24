@@ -109,7 +109,6 @@ class ShopItemFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
             editingFinishedListener.outputOk()
-//            activity?.onBackPressedDispatcher?.onBackPressed()
         }
 
         viewModel.infoNameError.observe(viewLifecycleOwner) {
