@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myshoppingtasks.R
@@ -39,28 +38,24 @@ class ShopListAdapter
         with(holder) {
             val item = getItem(position)
             val binding = holder.binding
-            with( binding.root) {
+            with(binding.root) {
                 setOnClickListener {
-                onShopItemClickListener?.invoke(item, SHORT_CLICK_PARAM)
-            }
+                    onShopItemClickListener?.invoke(item, SHORT_CLICK_PARAM)
+                }
                 setOnLongClickListener {
                     onShopItemClickListener?.invoke(item, LONG_CLICK_PARAM)
                     true
                 }
             }
-            when(binding){
-                is ItemShopEnabledBinding->{
-                    binding.itemName.text = item.name
-                    binding.itemCount.text = item.count.toString()
+            when (binding) {
+                is ItemShopEnabledBinding -> {
+                    binding.item = item
                 }
-                is ItemShopDisabledBinding->{
-                    binding.itemName.text = item.name
-                    binding.itemCount.text = item.count.toString()
+
+                is ItemShopDisabledBinding -> {
+                    binding.item = item
                 }
             }
-
-
-
         }
     }
 

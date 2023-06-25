@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+
+        <variable
+            name="item"
+            type="com.example.myshoppingtasks.domain.ShopItem" />
+    </data>
+
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -26,19 +33,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="@{item.name}"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                tools:text="Bread"></TextView>
+                tools:text="Bread" />
 
             <TextView
                 android:id="@+id/item_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{String.valueOf(item.count)}"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                tools:text="1"></TextView>
+                tools:text="1" />
 
         </LinearLayout>
 

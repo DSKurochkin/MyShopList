@@ -4,23 +4,22 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myshoppingtasks.R
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.myshoppingtasks.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), EditingFinishedListener {
 
     private lateinit var shopListAdapter: ShopListAdapter
     private lateinit var viewModel: MainViewModel
-    private var shopItemContainer: FragmentContainerView? = null
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        shopItemContainer = findViewById(R.id.shop_item_container)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setupRecyclerView()
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.shopList.observe(this) {
@@ -28,23 +27,19 @@ class MainActivity : AppCompatActivity(), EditingFinishedListener {
 
         }
 
-        val addItemBtn = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
-        addItemBtn.setOnClickListener {
+        binding.buttonAddShopItem.setOnClickListener {
             if (isPortraitOrientation()) {
                 val intent = ShopItemActivity.newIntentAddItem(this)
                 startActivity(intent)
             } else {
                 launchFragment(ShopItemFragment.newInstanceAddItem())
             }
-
         }
-
     }
 
     private fun setupRecyclerView() {
-        val rvShopList = findViewById<RecyclerView>(R.id.rv_shop_list)
-        shopListAdapter = ShopListAdapter()
-        with(rvShopList) {
+        with(binding.rvShopList) {
+            shopListAdapter = ShopListAdapter()
             adapter = shopListAdapter
             recycledViewPool.setMaxRecycledViews(
                 ShopListAdapter.VT_ENABLED,
@@ -103,7 +98,7 @@ class MainActivity : AppCompatActivity(), EditingFinishedListener {
         return ItemTouchHelper(cb)
     }
 
-    private fun isPortraitOrientation() = shopItemContainer == null
+    private fun isPortraitOrientation() = binding.shopItemContainer == null
 
     private fun launchFragment(fragment: Fragment) {
         supportFragmentManager.popBackStack()
