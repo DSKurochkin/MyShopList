@@ -1,4 +1,4 @@
-package com.example.myshoppingtasks.domain.uskeys
+package com.example.myshoppingtasks.domain.usekeys
 
 import com.example.myshoppingtasks.domain.Repo
 import com.example.myshoppingtasks.domain.ShopItem

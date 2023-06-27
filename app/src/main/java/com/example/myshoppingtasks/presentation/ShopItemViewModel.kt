@@ -1,16 +1,17 @@
 package com.example.myshoppingtasks.presentation
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.myshoppingtasks.data.InMemRepImpl
+import com.example.myshoppingtasks.data.RoomRepoImpl
 import com.example.myshoppingtasks.domain.ShopItem
-import com.example.myshoppingtasks.domain.uskeys.AddShopItem
-import com.example.myshoppingtasks.domain.uskeys.EditShopItem
-import com.example.myshoppingtasks.domain.uskeys.GetShopItem
+import com.example.myshoppingtasks.domain.usekeys.AddShopItem
+import com.example.myshoppingtasks.domain.usekeys.EditShopItem
+import com.example.myshoppingtasks.domain.usekeys.GetShopItem
 
-class ShopItemViewModel : ViewModel() {
-    private val repo = InMemRepImpl
+class ShopItemViewModel(application: Application): AndroidViewModel(application) {
+    private val repo = RoomRepoImpl(application)
     private val getShopItemUseCase = GetShopItem(repo)
     private val updateShopItemUseCase = EditShopItem(repo)
     private val addShopItemUseCase = AddShopItem(repo)
