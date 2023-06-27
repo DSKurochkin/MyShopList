@@ -7,7 +7,7 @@ import com.example.myshoppingtasks.domain.uskeys.EditShopItem
 import com.example.myshoppingtasks.domain.uskeys.GetShopList
 import com.example.myshoppingtasks.domain.uskeys.RemoveShopItem
 
-class MaiViewModel : ViewModel() {
+class MainViewModel : ViewModel() {
     private val repo = InMemRepImpl
 
     private val getShopListUseCase = GetShopList(repo)
