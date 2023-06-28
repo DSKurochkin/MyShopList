@@ -1,14 +1,17 @@
 package com.example.myshoppingtasks.presentation
 
-import androidx.lifecycle.ViewModel
-import com.example.myshoppingtasks.data.InMemRepImpl
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.myshoppingtasks.data.RoomRepoImpl
 import com.example.myshoppingtasks.domain.ShopItem
-import com.example.myshoppingtasks.domain.uskeys.EditShopItem
-import com.example.myshoppingtasks.domain.uskeys.GetShopList
-import com.example.myshoppingtasks.domain.uskeys.RemoveShopItem
+import com.example.myshoppingtasks.domain.usekeys.EditShopItem
+import com.example.myshoppingtasks.domain.usekeys.GetShopList
+import com.example.myshoppingtasks.domain.usekeys.RemoveShopItem
+import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
-    private val repo = InMemRepImpl
+class MainViewModel(application: Application) : AndroidViewModel(application) {
+    private val repo = RoomRepoImpl(application)
 
     private val getShopListUseCase = GetShopList(repo)
     private val editShopItemCase = EditShopItem(repo)
@@ -17,11 +20,15 @@ class MainViewModel : ViewModel() {
     val shopList = getShopListUseCase.getShopList()
 
     fun removeItem(item: ShopItem) {
-        deleteShopItemCase.removeShopItem(item)
+        viewModelScope.launch {
+            deleteShopItemCase.removeShopItem(item)
+        }
     }
 
     fun changeItemEnabled(item: ShopItem) {
-        val copy = item.copy(isEnabled = !item.isEnabled)
-        editShopItemCase.editShopItem(copy)
+        viewModelScope.launch {
+            val copy = item.copy(isEnabled = !item.isEnabled)
+            editShopItemCase.editShopItem(copy)
+        }
     }
 }
