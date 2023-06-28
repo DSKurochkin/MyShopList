@@ -4,13 +4,15 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.myshoppingtasks.data.RoomRepoImpl
 import com.example.myshoppingtasks.domain.ShopItem
 import com.example.myshoppingtasks.domain.usekeys.AddShopItem
 import com.example.myshoppingtasks.domain.usekeys.EditShopItem
 import com.example.myshoppingtasks.domain.usekeys.GetShopItem
+import kotlinx.coroutines.launch
 
-class ShopItemViewModel(application: Application): AndroidViewModel(application) {
+class ShopItemViewModel(application: Application) : AndroidViewModel(application) {
     private val repo = RoomRepoImpl(application)
     private val getShopItemUseCase = GetShopItem(repo)
     private val updateShopItemUseCase = EditShopItem(repo)
@@ -36,7 +38,9 @@ class ShopItemViewModel(application: Application): AndroidViewModel(application)
 
 
     fun getShopItem(id: Int) {
-        _item.value = getShopItemUseCase.getShopItem(id)
+        viewModelScope.launch {
+            _item.value = getShopItemUseCase.getShopItem(id)
+        }
     }
 
     fun updateShopItem(name: String?, count: String?) {
@@ -44,9 +48,11 @@ class ShopItemViewModel(application: Application): AndroidViewModel(application)
         val pCount = parseCount(count)
         if (isValidateInput(pName, pCount)) {
             _item.value?.let {
-                val item = it.copy(pName, pCount)
-                updateShopItemUseCase.editShopItem(item)
-                finishWork()
+                viewModelScope.launch {
+                    val item = it.copy(pName, pCount)
+                    updateShopItemUseCase.editShopItem(item)
+                    finishWork()
+                }
             }
         }
     }
@@ -55,8 +61,11 @@ class ShopItemViewModel(application: Application): AndroidViewModel(application)
         val pName = parseName(name)
         val pCount = parseCount(count)
         if (isValidateInput(pName, pCount)) {
-            addShopItemUseCase.addShopItem(ShopItem(pName, pCount, true))
-            finishWork()
+            viewModelScope.launch {
+                addShopItemUseCase.addShopItem(ShopItem(pName, pCount, true))
+                finishWork()
+            }
+
         }
     }
 

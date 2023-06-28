@@ -17,21 +17,21 @@ class RoomRepoImpl(application: Application) : Repo {
 //    }
 
 
-    override fun addShopItem(item: ShopItem) {
+    override suspend fun addShopItem(item: ShopItem) {
         dao.add(mapper.entityToDBModel(item))
 
     }
 
-    override fun editShopItem(item: ShopItem) {
+    override suspend fun editShopItem(item: ShopItem) {
         dao.add(mapper.entityToDBModel(item))
     }
 
 
-    override fun removeShopItem(item: ShopItem) {
+    override suspend fun removeShopItem(item: ShopItem) {
         dao.delete(item.id)
     }
 
-    override fun getShopItem(id: Int): ShopItem {
+    override suspend fun getShopItem(id: Int): ShopItem {
         return mapper.dBModelToEntity(dao.get(id))
     }
 

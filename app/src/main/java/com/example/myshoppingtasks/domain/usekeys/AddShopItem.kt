@@ -5,5 +5,5 @@ import com.example.myshoppingtasks.domain.ShopItem
 
 class AddShopItem(private val repo: Repo) {
 
-    fun addShopItem(item: ShopItem) = repo.addShopItem(item)
+    suspend fun addShopItem(item: ShopItem) = repo.addShopItem(item)
 }
