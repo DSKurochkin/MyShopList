@@ -1,21 +1,21 @@
 package com.example.myshoppingtasks.presentation
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myshoppingtasks.data.RoomRepoImpl
+import com.example.myshoppingtasks.domain.Repo
 import com.example.myshoppingtasks.domain.ShopItem
 import com.example.myshoppingtasks.domain.usekeys.EditShopItem
 import com.example.myshoppingtasks.domain.usekeys.GetShopList
 import com.example.myshoppingtasks.domain.usekeys.RemoveShopItem
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
-    private val repo = RoomRepoImpl(application)
+class MainViewModel @Inject constructor(
+    private val getShopListUseCase: GetShopList,
+    private val editShopItemCase: EditShopItem,
+    private val deleteShopItemCase: RemoveShopItem
+) : ViewModel() {
 
-    private val getShopListUseCase = GetShopList(repo)
-    private val editShopItemCase = EditShopItem(repo)
-    private val deleteShopItemCase = RemoveShopItem(repo)
 
     val shopList = getShopListUseCase.getShopList()
 
