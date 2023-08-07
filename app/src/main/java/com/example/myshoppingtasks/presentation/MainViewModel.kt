@@ -2,7 +2,6 @@ package com.example.myshoppingtasks.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myshoppingtasks.domain.Repo
 import com.example.myshoppingtasks.domain.ShopItem
 import com.example.myshoppingtasks.domain.usekeys.EditShopItem
 import com.example.myshoppingtasks.domain.usekeys.GetShopList

@@ -15,6 +15,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), EditingFinishedListener {
 
     private lateinit var shopListAdapter: ShopListAdapter
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     lateinit var viewModel: MainViewModel
