@@ -1,22 +1,21 @@
 package com.example.myshoppingtasks.presentation
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myshoppingtasks.data.RoomRepoImpl
 import com.example.myshoppingtasks.domain.ShopItem
 import com.example.myshoppingtasks.domain.usekeys.AddShopItem
 import com.example.myshoppingtasks.domain.usekeys.EditShopItem
 import com.example.myshoppingtasks.domain.usekeys.GetShopItem
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ShopItemViewModel(application: Application) : AndroidViewModel(application) {
-    private val repo = RoomRepoImpl(application)
-    private val getShopItemUseCase = GetShopItem(repo)
-    private val updateShopItemUseCase = EditShopItem(repo)
-    private val addShopItemUseCase = AddShopItem(repo)
+class ShopItemViewModel @Inject constructor(
+    private val getShopItemUseCase: GetShopItem,
+    private val updateShopItemUseCase: EditShopItem,
+    private val addShopItemUseCase: AddShopItem,
+) : ViewModel() {
 
 
     private val _infoNameError = MutableLiveData<Boolean>()
